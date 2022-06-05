@@ -57,21 +57,41 @@ pipeline {
             }
         }
         stage('Build Department Service'){
+            when{
+                expression {
+                        return "${BUILD_SERVICES}".contains("department-service")
+                }
+            }
             steps{
                 echo 'Build Cloud Config Server'
             }
         }
         stage('Build Hystrix Dashboard'){
+            when{
+                expression {
+                        return "${BUILD_SERVICES}".contains("hystrix-dashboard")
+                }
+            }
             steps{
                 echo 'Build Cloud Config Server'
             }
         }
         stage('Build Service Registry'){
+            when{
+                expression {
+                        return "${BUILD_SERVICES}".contains("service-registry")
+                }
+            }
             steps{
                 echo 'Build Cloud Config Server'
             }
         }
         stage('Build User Service'){
+            when{
+                expression {
+                        return "${BUILD_SERVICES}".contains("user-service")
+                }
+            }
             steps{
                 echo 'Build Cloud Config Server'
             }

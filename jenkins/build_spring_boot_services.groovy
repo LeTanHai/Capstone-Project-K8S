@@ -30,8 +30,6 @@ pipeline {
                 submoduleCfg: [],
                 userRemoteConfigs: [[credentialsId: 'tanhai_github', url: "${GIT_URL}"]]
                 ])
-                sh 'pwd'
-                sh 'ls'
             }
         }
         stage('Build Cloud Config Server'){
@@ -63,6 +61,11 @@ pipeline {
             steps{
                 echo 'Build Cloud Config Server'
             }
+        }
+    }
+    post {
+        always {
+            deleteDir() /* clean up our workspace */
         }
     }
 }

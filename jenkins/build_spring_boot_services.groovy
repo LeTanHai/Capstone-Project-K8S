@@ -11,7 +11,8 @@ pipeline {
             choices: ['staging', 'preproduction', 'production'],
             description: 'Branch build from git'
         )
-        multipleChoice(name: 'Environments', choices: ["prod", "eu", "test", "mgmt"], description: 'Environments to create parameter in')
+        checkboxParameter(name: 'BUILD_SERVICES', format: 'JSON',
+            pipelineSubmitContent: '{"CheckboxParameter": [{"key": "Cloud Config Server","value": "cloud-config-server"},{"key": "Cloud Gateway","value": "cloud-gateway"},{"key": "Department Service","value": "department-service"},{"key": "Hystrix Dashboard","value": "hystrix-dashboard"},{"key": "Service Registry","value": "service-registry"},{"key": "User Service","value": "user-service"}]}', description: '')
     }
     stages{
         stage('Checkout'){
@@ -36,6 +37,7 @@ pipeline {
         stage('Build Cloud Config Server'){
             steps{
                 echo 'Build Cloud Config Server'
+                echo "xxxxxxxxxxxx:${BUILD_SERVICES}"
             }
         }
         stage('Build Cloud Gateway'){

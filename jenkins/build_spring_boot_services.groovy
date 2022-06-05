@@ -10,7 +10,8 @@ pipeline {
             name: 'BRANCH_BUILD',
             choices: ['staging', 'preproduction', 'production'],
             description: 'Branch build from git'
-        )
+        ),
+        multipleChoice(name: 'Environments', choices: ["prod", "eu", "test", "mgmt"], description: 'Environments to create parameter in')
     }
     stages{
         stage('Checkout'){

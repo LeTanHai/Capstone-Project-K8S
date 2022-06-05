@@ -35,6 +35,11 @@ pipeline {
             }
         }
         stage('Build Cloud Config Server'){
+            when{
+                expression {
+                        return "${BUILD_SERVICES}".contains("cloud-config-server")
+                }
+            }
             steps{
                 echo 'Build Cloud Config Server'
                 echo "xxxxxxxxxxxx:${BUILD_SERVICES}"

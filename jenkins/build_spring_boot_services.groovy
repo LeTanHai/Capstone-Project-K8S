@@ -46,8 +46,14 @@ pipeline {
             }
         }
         stage('Build Cloud Gateway'){
+            when{
+                expression {
+                        return "${BUILD_SERVICES}".contains("cloud-gateway")
+                }
+            }
             steps{
                 echo 'Build Cloud Config Server'
+                echo "yyyyyyy:${BUILD_SERVICES}"
             }
         }
         stage('Build Department Service'){

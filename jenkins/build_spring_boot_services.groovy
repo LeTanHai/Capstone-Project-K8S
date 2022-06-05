@@ -5,7 +5,12 @@ pipeline {
         WORKSPACE = 'SOURCE_CODE'
     }
     parameters {
-        string(name: 'BRANCH_BUILD', choices: ['staging', 'preproduction', 'production'], description: 'Branch build from git')
+        // string(name: 'BRANCH_BUILD', choices: ['staging', 'preproduction', 'production'], description: 'Branch build from git')
+        choice(
+            name: 'BRANCH_BUILD',
+            choices: ['staging', 'preproduction', 'production'],
+            description: 'Branch build from git'
+        )
     }
     stages{
         stage('Checkout'){
@@ -36,27 +41,27 @@ pipeline {
         }
         stage('Build Cloud Gateway'){
             steps{
-                
+                echo 'Build Cloud Config Server'
             }
         }
         stage('Build Department Service'){
             steps{
-                
+                echo 'Build Cloud Config Server'
             }
         }
         stage('Build Hystrix Dashboard'){
             steps{
-                
+                echo 'Build Cloud Config Server'
             }
         }
         stage('Build Service Registry'){
             steps{
-                
+                echo 'Build Cloud Config Server'
             }
         }
         stage('Build User Service'){
             steps{
-                
+                echo 'Build Cloud Config Server'
             }
         }
     }

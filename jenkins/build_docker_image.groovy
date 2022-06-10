@@ -10,7 +10,7 @@ pipeline {
         stage("BUILD_DOCKER_IMAGE") {
             steps {
                 echo "Build docker image ${BUILD_SERVICES}"
-                "cd ${WORKSPACE} && ls"
+                sh "cd ${WORKSPACE} && ls"
             }
         }
     }

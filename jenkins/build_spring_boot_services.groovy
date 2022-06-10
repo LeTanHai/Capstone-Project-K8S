@@ -57,6 +57,8 @@ pipeline {
                 sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
                 // Build docker image
                 sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                // Tag docker image
+                sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
                 // Push image to ECR repository
                 sh "docker push ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
             }

@@ -8,7 +8,7 @@ pipeline {
     }
     stages {
         stage("BUILD_DOCKER_IMAGE") {
-            step {
+            steps {
                 echo "Build docker image ${BUILD_SERVICES}"
                 "cd ${WORKSPACE} && ls"
             }

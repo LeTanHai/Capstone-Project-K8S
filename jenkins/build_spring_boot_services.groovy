@@ -39,7 +39,7 @@ pipeline {
         }
         stage('Login into AWS ECR') {
             steps {
-                sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"  
+                sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | sudo docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"  
             }
         }
         stage('Build Cloud Config Server'){
@@ -113,9 +113,9 @@ pipeline {
             }
         }
     }
-    // post {
-    //     always {
-    //         deleteDir() /* clean up our workspace */
-    //     }
-    // }
+    post {
+        always {
+            deleteDir() /* clean up our workspace */
+        }
+    }
 }

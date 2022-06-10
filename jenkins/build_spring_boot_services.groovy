@@ -5,7 +5,6 @@ pipeline {
         WORKSPACE = 'SOURCE_CODE'
     }
     parameters {
-        // string(name: 'BRANCH_BUILD', choices: ['staging', 'preproduction', 'production'], description: 'Branch build from git')
         choice(
             name: 'BRANCH_BUILD',
             choices: ['staging', 'preproduction', 'production'],
@@ -37,18 +36,19 @@ pipeline {
         stage('Build Cloud Config Server'){
             when{
                 expression {
-                        return "${BUILD_SERVICES}".contains("cloud-config-server")
+                    return "${BUILD_SERVICES}".contains("cloud-config-server")
                 }
             }
             steps{
-                echo 'Build Cloud Config Server'
-                echo "xxxxxxxxxxxx:${BUILD_SERVICES}"
+                build(job: 'BUILD_DOCKER_IMAGE', parameters: [
+                    string(name: "BUILD_SERVICES", value: "${BUILD_SERVICES}")
+                ])    
             }
         }
         stage('Build Cloud Gateway'){
             when{
                 expression {
-                        return "${BUILD_SERVICES}".contains("cloud-gateway")
+                    return "${BUILD_SERVICES}".contains("cloud-gateway")
                 }
             }
             steps{
@@ -59,7 +59,7 @@ pipeline {
         stage('Build Department Service'){
             when{
                 expression {
-                        return "${BUILD_SERVICES}".contains("department-service")
+                    return "${BUILD_SERVICES}".contains("department-service")
                 }
             }
             steps{
@@ -69,7 +69,7 @@ pipeline {
         stage('Build Hystrix Dashboard'){
             when{
                 expression {
-                        return "${BUILD_SERVICES}".contains("hystrix-dashboard")
+                    return "${BUILD_SERVICES}".contains("hystrix-dashboard")
                 }
             }
             steps{
@@ -79,7 +79,7 @@ pipeline {
         stage('Build Service Registry'){
             when{
                 expression {
-                        return "${BUILD_SERVICES}".contains("service-registry")
+                    return "${BUILD_SERVICES}".contains("service-registry")
                 }
             }
             steps{
@@ -89,7 +89,7 @@ pipeline {
         stage('Build User Service'){
             when{
                 expression {
-                        return "${BUILD_SERVICES}".contains("user-service")
+                    return "${BUILD_SERVICES}".contains("user-service")
                 }
             }
             steps{

@@ -41,7 +41,7 @@ pipeline {
             }
             steps{
                 build(job: 'BUILD_DOCKER_IMAGE', parameters: [
-                    string(name: "BUILD_SERVICES", value: "${BUILD_SERVICES}")
+                    string(name: 'BUILD_SERVICES', value: String.valueOf(BUILD_SERVICES))
                 ])    
             }
         }

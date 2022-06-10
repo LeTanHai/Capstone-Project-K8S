@@ -3,6 +3,10 @@ pipeline {
     environment {
         GIT_URL = 'https://github.com/LeTanHai/Capstone-Project-K8S.git'
         WORKSPACE = 'SOURCE_CODE'
+        AWS_ACCOUNT_ID="248155485793"
+        AWS_DEFAULT_REGION="us-east-1" 
+        IMAGE_TAG="1.0_latest"
+        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
     }
     parameters {
         choice(
@@ -33,16 +37,28 @@ pipeline {
                 ])
             }
         }
+        stage('Login into AWS ECR') {
+            steps {
+                sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"  
+            }
+        }
         stage('Build Cloud Config Server'){
             when{
                 expression {
                     return "${BUILD_SERVICES}".contains("cloud-config-server")
                 }
             }
+            environment {
+                IMAGE_REPO_NAME="cloud-config-server-repo"
+            }
             steps{
-                build(job: 'BUILD_DOCKER_IMAGE', parameters: [
-                    string(name: 'BUILD_SERVICES', value: String.valueOf(BUILD_SERVICES))
-                ])    
+                sh "cd ${WORKSPACE}/${BUILD_SERVICES}"
+                // Build jar file via maven
+                sh "mvn clean install -DskipTests=true"
+                // Build docker image
+                sh "docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                // Push image to ECR repository
+                sh "docker push ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
             }
         }
         stage('Build Cloud Gateway'){

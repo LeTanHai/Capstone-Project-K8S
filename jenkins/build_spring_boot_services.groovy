@@ -55,7 +55,7 @@ pipeline {
             steps{
                 sh "cd ${WORKSPACE}/${BUILD_SERVICES}"
                 // Build jar file via maven
-                sh "mvn clean install -DskipTests=true"
+                sh "pwd && mvn clean install -DskipTests=true"
                 // Build docker image
                 sh "docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
                 // Push image to ECR repository
@@ -114,9 +114,9 @@ pipeline {
             }
         }
     }
-    // post {
-    //     always {
-    //         deleteDir() /* clean up our workspace */
-    //     }
-    // }
+    post {
+        always {
+            deleteDir() /* clean up our workspace */
+        }
+    }
 }

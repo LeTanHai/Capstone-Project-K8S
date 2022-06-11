@@ -12,6 +12,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'kubectl get nodes -o wide'
                 sh 'kubectl apply -f kubernetes/config-server.yml'
             }
         }
@@ -72,9 +73,9 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            deleteDir() /* clean up our workspace */
-        }
-    }
+    // post {
+    //     always {
+    //         deleteDir() /* clean up our workspace */
+    //     }
+    // }
 }

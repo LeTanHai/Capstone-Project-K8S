@@ -22,7 +22,7 @@ spec:
           ports:
             - containerPort: 9296
       imagePullSecrets:
-          - name: ecr_secret
+          - name: ecr-secret
 ---
 apiVersion: v1
 kind: Service

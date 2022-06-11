@@ -5,6 +5,9 @@ pipeline {
         string(name: 'BUILD_SERVICES', defaultValue: '', description: 'List of build services')
     }
     stages {
+        stage('Remote to k8s cluster') {
+            sh 'aws eks --region us-east-1 update-kubeconfig --name Capstone-Cluster'
+        }
         stage('Deploy Cloud Config Server') {
             when{
                 expression {

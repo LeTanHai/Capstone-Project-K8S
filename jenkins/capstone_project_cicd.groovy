@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    parameters {
+        choice(
+            name: 'BRANCH_BUILD',
+            choices: ['staging', 'preproduction', 'production'],
+            description: 'Branch build from git'
+        )
+        checkboxParameter(name: 'BUILD_SERVICES', format: 'JSON',
+            pipelineSubmitContent: '{"CheckboxParameter": [{"key": "Cloud Config Server","value": "cloud-config-server"},{"key": "Cloud Gateway","value": "cloud-gateway"},{"key": "Department Service","value": "department-service"},{"key": "Hystrix Dashboard","value": "hystrix-dashboard"},{"key": "Service Registry","value": "service-registry"},{"key": "User Service","value": "user-service"}]}', description: '')
+    }
+    stages {
+        stage('BUILD_SPRING_BOOT_SERVICES') {
+            steps {
+                build(job: 'BUILD_SPRING_BOOT_SERVICES', parameters: [
+                    string(name: 'BRANCH_BUILD', value: String.valueOf(BRANCH_BUILD)),
+                    string(name: 'BUILD_SERVICES', value: Stirng.valueOf(BUILD_SERVICES))
+                ])
+            }
+        }
+
+        stage('CREATE_INFRATRUCTURE') {
+            steps {
+                echo 'creating infrastructure'
+                // sh 'ansible ....'
+            }
+        }
+    }
+    post {
+        always {
+            deleteDir() /* clean up our workspace */
+        }
+    }
+}

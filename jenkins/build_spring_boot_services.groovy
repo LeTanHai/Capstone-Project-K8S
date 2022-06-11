@@ -1,4 +1,3 @@
-/* groovylint-disable NglParseError */
 pipeline {
     agent any
     environment {
@@ -10,13 +9,8 @@ pipeline {
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
     }
     parameters {
-        choice(
-            name: 'BRANCH_BUILD',
-            choices: ['staging', 'preproduction', 'production'],
-            description: 'Branch build from git'
-        )
-        checkboxParameter(name: 'BUILD_SERVICES', format: 'JSON',
-            pipelineSubmitContent: '{"CheckboxParameter": [{"key": "Cloud Config Server","value": "cloud-config-server"},{"key": "Cloud Gateway","value": "cloud-gateway"},{"key": "Department Service","value": "department-service"},{"key": "Hystrix Dashboard","value": "hystrix-dashboard"},{"key": "Service Registry","value": "service-registry"},{"key": "User Service","value": "user-service"}]}', description: '')
+        string(name: 'BRANCH_BUILD', defaultValue: 'staging', description: 'The branch of git')
+        string(name: 'BUILD_SERVICES', defaultValue: '', description: 'List of build services')
     }
     stages{
         stage('Checkout'){
@@ -164,12 +158,12 @@ pipeline {
                 sh "docker push ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
             }
         }
-        stage('Delete docker images') {
-            steps {
-                /* groovylint-disable-next-line NglParseError */
-                sh "docker rmi -f \$(docker images -aq)"
-            }
-        }
+        // stage('Delete docker images') {
+        //     steps {
+        //         /* groovylint-disable-next-line NglParseError */
+        //         sh "docker rmi -f \$(docker images -aq)"
+        //     }
+        // }
     }
     post {
         always {

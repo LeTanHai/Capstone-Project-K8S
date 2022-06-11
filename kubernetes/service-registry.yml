@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
         - name: eureka
-          image: dailycodebuffer/service-registry:0.0.1
+          image: 248155485793.dkr.ecr.us-east-1.amazonaws.com/service-registry-repo:staging_1.0_latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8761
@@ -64,3 +64,5 @@ spec:
                 configMapKeyRef:
                   name: eureka-cm
                   key: eureka_service_address
+      imagePullSecrets:
+        - name: ecr-secret

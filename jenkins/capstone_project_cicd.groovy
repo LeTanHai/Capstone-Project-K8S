@@ -1,6 +1,7 @@
 pipeline {
     agent any
     parameters {
+        booleanParam(name: 'CREATE_INFAR', defaultValue: false, description: 'Flag to trigger create infrastructure')
         choice(
             name: 'BRANCH_BUILD',
             choices: ['staging', 'preproduction', 'production'],
@@ -19,7 +20,12 @@ pipeline {
             }
         }
 
-        stage('CREATE_INFRATRUCTURE') {
+        stage('CREATE_INFRASTRUCTURE') {
+            when{
+                expression {
+                    return "${CREATE_INFAR}"
+                }
+            }
             steps {
                 sh 'cd cloudformation && aws cloudformation deploy --stack-name capstone-stack --template-body file://infrastructure.yml  --parameters file://parameters.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-east-1'
             }
@@ -27,7 +33,10 @@ pipeline {
 
         stage('DEPLOY_SERVERS') {
             steps {
-                echo 'deploy services'
+                build(job: 'DEPLOY_SPRING_BOOT_SERVICES', parameters: [
+                    string(name: 'BRANCH_BUILD', value: String.valueOf(BRANCH_BUILD)),
+                    string(name: 'BUILD_SERVICES', value: String.valueOf(BUILD_SERVICES))
+                ])
             }
         }
     }

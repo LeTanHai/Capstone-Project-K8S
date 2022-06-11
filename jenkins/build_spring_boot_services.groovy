@@ -171,9 +171,9 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            deleteDir() /* clean up our workspace */
-        }
-    }
+    // post {
+    //     always {
+    //         deleteDir() /* clean up our workspace */
+    //     }
+    // }
 }

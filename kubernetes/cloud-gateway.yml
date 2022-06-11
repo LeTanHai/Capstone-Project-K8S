@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cloud-gateway-app
+  namespace: capstone-namespace
   labels:
     app: cloud-gateway-app
 spec:
@@ -26,6 +27,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cloud-gateway-svc
+  namespace: capstone-namespace
 spec:
   type: LoadBalancer
   ports:

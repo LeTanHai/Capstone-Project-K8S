@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hystrix-dashboard-app
+  namespace: capstone-namespace
   labels:
     app: hystrix-dashboard-app
 spec:
@@ -26,6 +27,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hystrix-dashboard-svc
+  namespace: capstone-namespace
 spec:
   type: NodePort
   ports:

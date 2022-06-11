@@ -21,8 +21,13 @@ pipeline {
 
         stage('CREATE_INFRATRUCTURE') {
             steps {
-                echo 'creating infrastructure'
-                // sh 'ansible ....'
+                sh 'cd cloudformation && aws cloudformation create-stack --stack-name capstone_stack --template-body file://infrastructure.yml  --parameters file://parameters.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-east-1'
+            }
+        }
+
+        stage('DEPLOY_SERVERS') {
+            steps {
+                echo 'deploy services'
             }
         }
     }

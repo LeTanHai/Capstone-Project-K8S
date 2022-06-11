@@ -55,9 +55,9 @@ pipeline {
             }
             steps{
                 // Build jar file via maven
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
+                sh "cd ${WORKSPACE}/cloud-config-server && pwd && mvn clean install -DskipTests=true"
                 // Build docker image
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                sh "cd ${WORKSPACE}/cloud-config-server && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
                 // Tag docker image
                 sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
                 // Push image to ECR repository
@@ -75,9 +75,9 @@ pipeline {
             }
             steps{
                 // Build jar file via maven
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
+                sh "cd ${WORKSPACE}/cloud-gateway && pwd && mvn clean install -DskipTests=true"
                 // Build docker image
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                sh "cd ${WORKSPACE}/cloud-gateway && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
                 // Tag docker image
                 sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
                 // Push image to ECR repository
@@ -95,9 +95,9 @@ pipeline {
             }
             steps{
                 // Build jar file via maven
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
+                sh "cd ${WORKSPACE}/department-service && pwd && mvn clean install -DskipTests=true"
                 // Build docker image
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                sh "cd ${WORKSPACE}/department-service && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
                 // Tag docker image
                 sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
                 // Push image to ECR repository
@@ -115,9 +115,9 @@ pipeline {
             }
             steps{
                 // Build jar file via maven
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
+                sh "cd ${WORKSPACE}/hystrix-dashboard && pwd && mvn clean install -DskipTests=true"
                 // Build docker image
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                sh "cd ${WORKSPACE}/hystrix-dashboard && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
                 // Tag docker image
                 sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
                 // Push image to ECR repository
@@ -135,9 +135,9 @@ pipeline {
             }
             steps{
                 // Build jar file via maven
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
+                sh "cd ${WORKSPACE}/service-registry && pwd && mvn clean install -DskipTests=true"
                 // Build docker image
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                sh "cd ${WORKSPACE}/service-registry && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
                 // Tag docker image
                 sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
                 // Push image to ECR repository
@@ -155,9 +155,9 @@ pipeline {
             }
             steps{
                 // Build jar file via maven
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
+                sh "cd ${WORKSPACE}/user-service && pwd && mvn clean install -DskipTests=true"
                 // Build docker image
-                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                sh "cd ${WORKSPACE}/user-service && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
                 // Tag docker image
                 sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
                 // Push image to ECR repository

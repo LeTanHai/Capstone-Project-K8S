@@ -23,11 +23,11 @@ pipeline {
         stage('CREATE_INFRASTRUCTURE') {
             when{
                 expression {
-                    return "${CREATE_INFAR}"
+                    return Boolean.valueOf(CREATE_INFAR)
                 }
             }
             steps {
-                sh 'cd cloudformation && aws cloudformation deploy --stack-name capstone-stack --template-body file://infrastructure.yml  --parameters file://parameters.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-east-1'
+                sh 'cd cloudformation && aws cloudformation create-stack --stack-name capstone-stack --template-body file://infrastructure.yml  --parameters file://parameters.json --capabilities "CAPABILITY_IAM" "CAPABILITY_NAMED_IAM" --region=us-east-1'
             }
         }
 

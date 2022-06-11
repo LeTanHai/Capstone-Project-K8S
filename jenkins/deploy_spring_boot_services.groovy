@@ -12,6 +12,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'whoami && ls -al ~/.kube/config'
                 sh 'kubectl get nodes -o wide'
                 sh 'kubectl apply -f kubernetes/config-server.yml'
             }

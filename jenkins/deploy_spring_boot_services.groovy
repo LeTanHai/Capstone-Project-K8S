@@ -12,8 +12,8 @@ pipeline {
                 }
             }
             steps {
-                sh 'sudo chmod +x /home/ec2-user/bin/kubectl && /home/ec2-user/bin/kubectl get nodes -o wide'
-                sh 'sudo /home/ec2-user/bin/kubectl apply -f kubernetes/config-server.yml'
+                sh '/home/ec2-user/bin/kubectl get nodes -o wide'
+                sh '/home/ec2-user/bin/kubectl apply -f kubernetes/config-server.yml'
             }
         }
         stage('Deploy Cloud Gateway') {

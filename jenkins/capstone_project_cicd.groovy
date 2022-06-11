@@ -14,7 +14,7 @@ pipeline {
             steps {
                 build(job: 'BUILD_SPRING_BOOT_SERVICES', parameters: [
                     string(name: 'BRANCH_BUILD', value: String.valueOf(BRANCH_BUILD)),
-                    string(name: 'BUILD_SERVICES', value: Stirng.valueOf(BUILD_SERVICES))
+                    string(name: 'BUILD_SERVICES', value: String.valueOf(BUILD_SERVICES))
                 ])
             }
         }

@@ -1,3 +1,4 @@
+/* groovylint-disable NglParseError */
 pipeline {
     agent any
     environment {
@@ -69,9 +70,18 @@ pipeline {
                     return "${BUILD_SERVICES}".contains("cloud-gateway")
                 }
             }
+            environment {
+                IMAGE_REPO_NAME="cloud-gateway-repo"
+            }
             steps{
-                echo 'Build Cloud Config Server'
-                echo "yyyyyyy:${BUILD_SERVICES}"
+                // Build jar file via maven
+                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
+                // Build docker image
+                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                // Tag docker image
+                sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
+                // Push image to ECR repository
+                sh "docker push ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
             }
         }
         stage('Build Department Service'){
@@ -80,8 +90,18 @@ pipeline {
                     return "${BUILD_SERVICES}".contains("department-service")
                 }
             }
+            environment {
+                IMAGE_REPO_NAME="department-service-repo"
+            }
             steps{
-                echo 'Build Cloud Config Server'
+                // Build jar file via maven
+                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
+                // Build docker image
+                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                // Tag docker image
+                sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
+                // Push image to ECR repository
+                sh "docker push ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
             }
         }
         stage('Build Hystrix Dashboard'){
@@ -90,8 +110,18 @@ pipeline {
                     return "${BUILD_SERVICES}".contains("hystrix-dashboard")
                 }
             }
+            environment {
+                IMAGE_REPO_NAME="hystrix-dashboard-repo"
+            }
             steps{
-                echo 'Build Cloud Config Server'
+                // Build jar file via maven
+                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
+                // Build docker image
+                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                // Tag docker image
+                sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
+                // Push image to ECR repository
+                sh "docker push ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
             }
         }
         stage('Build Service Registry'){
@@ -100,8 +130,18 @@ pipeline {
                     return "${BUILD_SERVICES}".contains("service-registry")
                 }
             }
+            environment {
+                IMAGE_REPO_NAME="service-registry-repo"
+            }
             steps{
-                echo 'Build Cloud Config Server'
+                // Build jar file via maven
+                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
+                // Build docker image
+                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                // Tag docker image
+                sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
+                // Push image to ECR repository
+                sh "docker push ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
             }
         }
         stage('Build User Service'){
@@ -110,8 +150,24 @@ pipeline {
                     return "${BUILD_SERVICES}".contains("user-service")
                 }
             }
+            environment {
+                IMAGE_REPO_NAME="user-service-repo"
+            }
             steps{
-                echo 'Build Cloud Config Server'
+                // Build jar file via maven
+                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && pwd && mvn clean install -DskipTests=true"
+                // Build docker image
+                sh "cd ${WORKSPACE}/${BUILD_SERVICES} && docker build -t ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ."
+                // Tag docker image
+                sh "docker tag ${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG} ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
+                // Push image to ECR repository
+                sh "docker push ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${BRANCH_BUILD}_${IMAGE_TAG}"
+            }
+        }
+        stage('Delete docker images') {
+            steps {
+                /* groovylint-disable-next-line NglParseError */
+                sh "docker rmi -f $(docker images -aq)"
             }
         }
     }

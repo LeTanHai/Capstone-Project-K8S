@@ -167,7 +167,7 @@ pipeline {
         stage('Delete docker images') {
             steps {
                 /* groovylint-disable-next-line NglParseError */
-                sh "docker rmi -f $(docker images -aq)"
+                sh "docker rmi -f \$(docker images -aq)"
             }
         }
     }

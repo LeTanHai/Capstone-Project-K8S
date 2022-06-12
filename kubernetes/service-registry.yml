@@ -4,7 +4,7 @@ metadata:
   name: eureka-cm
   namespace: capstone-namespace
 data:
-  eureka_service_address: http://eureka-0.eureka:8761/eureka
+  eureka_service_address: http://eureka:8761/eureka
 ---
 apiVersion: v1
 kind: Service

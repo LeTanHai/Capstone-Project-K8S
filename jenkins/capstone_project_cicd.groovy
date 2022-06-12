@@ -35,6 +35,7 @@ pipeline {
         stage('DEPLOY_SERVERS') {
             steps {
                 build(job: 'DEPLOY_SPRING_BOOT_SERVICES', parameters: [
+                    booleanParam(name: 'CREATE_INFAR', value: Boolean.valueOf(CREATE_INFAR)),
                     string(name: 'BRANCH_BUILD', value: String.valueOf(BRANCH_BUILD)),
                     string(name: 'BUILD_SERVICES', value: String.valueOf(BUILD_SERVICES))
                 ])

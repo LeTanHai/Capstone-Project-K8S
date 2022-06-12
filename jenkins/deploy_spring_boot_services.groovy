@@ -8,6 +8,12 @@ pipeline {
         stage('Remote to k8s cluster') {
             steps {
                 sh 'aws eks --region us-east-1 update-kubeconfig --name Capstone-Cluster'
+                sh 'kubectl create namespace capstone-namespace'
+                sh 'kubectl create secret docker-registry ecr-secret \
+                    --docker-server=248155485793.dkr.ecr.us-east-1.amazonaws.com \
+                    --docker-username=AWS \
+                    --docker-password=$(aws ecr get-login-password) \
+                    --namespace=capstone-namespace'
             }
         }
         stage('Deploy Cloud Config Server') {
@@ -73,8 +79,8 @@ pipeline {
         }
         stage('Deployment status') {
             steps {
-                sh 'kubectl get nodes'
-                sh 'kubectl get pods'
+                sh 'kubectl get nodes --namespace=capstone-namespace'
+                sh 'kubectl get pods --namespace=capstone-namespace'
             }
         }
     }

@@ -29,12 +29,12 @@ metadata:
   labels:
     app: eureka
 spec:
-  clusterIP: None
-  ports:
-    - port: 8761
-      name: eureka
   selector:
     app: eureka
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8761
 ---
 apiVersion: apps/v1
 kind: StatefulSet
